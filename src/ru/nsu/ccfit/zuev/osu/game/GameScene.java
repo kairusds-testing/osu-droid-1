@@ -1,7 +1,6 @@
 package ru.nsu.ccfit.zuev.osu.game;
 
 import android.graphics.PointF;
-import android.os.Debug;
 import android.os.SystemClock;
 import android.text.format.Formatter;
 
