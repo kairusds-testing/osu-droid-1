@@ -740,7 +740,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
             final ChangeableText fpsText = new ChangeableText(Utils.toRes(790),
                     Utils.toRes(520), font, "00.00 FPS");
             final ChangeableText urText = new ChangeableText(Utils.toRes(720),
-                    Utils.toRes(480), font, "00.00 UR");
+                    Utils.toRes(480), font, "00.00 UR    ");
             /* final ChangeableText accText = new ChangeableText(Utils.toRes(720),
                     Utils.toRes(440), font, "Avg offset: 0ms     ");  */
             fpsText.setPosition(Config.getRES_WIDTH() - fpsText.getWidth() - 5, Config.getRES_HEIGHT() - fpsText.getHeight() - 10);
@@ -753,7 +753,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
             ChangeableText memText = null;
             if (BuildConfig.DEBUG) {
                 memText = new ChangeableText(Utils.toRes(780),
-                        Utils.toRes(520), font, "0 MB/0 MB");
+                        Utils.toRes(520), font, "0 MB/0 MB    ");
                 fgScene.attachChild(memText);
             }
 
@@ -774,7 +774,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                                 + "ms");
                         elapsedInt = 0;
                     }*/ 
-                    urText.setText(String.format(Locale.ENGLISH, "%.2f UR", stat.getUnstableRate()));
+                    urText.setText(String.format(Locale.ENGLISH, "%.2f UR    ", stat.getUnstableRate()));
 
                     fpsText.setPosition(Config.getRES_WIDTH() - fpsText.getWidth() - 5, Config.getRES_HEIGHT() - fpsText.getHeight() - 10);
                     // accText.setPosition(Config.getRES_WIDTH() - accText.getWidth() - 5, fpsText.getY() - accText.getHeight());
@@ -783,7 +783,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                     if (fmemText != null) {
                         Runtime runtime = Runtime.getRuntime();
                         fmemText.setText(Formatter.formatShortFileSize(activity, (runtime.totalMemory() - runtime.freeMemory())) +
-                            "/" + Formatter.formatShortFileSize(activity, runtime.totalMemory()));
+                            "/" + Formatter.formatShortFileSize(activity, runtime.totalMemory()) + "    ");
                         /* fmemText.setText("M: "
                                 + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024
                                 + "/" + Runtime.getRuntime().totalMemory() / 1024 / 1024); */
