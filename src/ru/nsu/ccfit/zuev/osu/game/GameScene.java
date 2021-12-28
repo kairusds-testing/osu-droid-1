@@ -2,7 +2,7 @@ package ru.nsu.ccfit.zuev.osu.game;
 
 import android.graphics.PointF;
 import android.os.SystemClock;
-import android.text.format.Formatter;
+// import android.text.format.Formatter;
 
 import com.dgsrz.bancho.game.sprite.VideoSprite;
 import com.edlplan.ext.EdExtensionHelper;
@@ -759,7 +759,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
 
             final ChangeableText fmemText = memText;
             fgScene.registerUpdateHandler(new FPSCounter() {
-                MainActivity activity = GlobalManager.getInstance().getMainActivity();
+                // MainActivity activity = GlobalManager.getInstance().getMainActivity();
                 // int elapsedInt = 0;
 
                 @Override
@@ -782,11 +782,11 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
 
                     if (fmemText != null) {
                         Runtime runtime = Runtime.getRuntime();
-                        fmemText.setText(Formatter.formatShortFileSize(activity, (runtime.totalMemory() - runtime.freeMemory())) +
-                            "/" + Formatter.formatShortFileSize(activity, runtime.totalMemory()) + "    ");
-                        /* fmemText.setText("M: "
-                                + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024
-                                + "/" + Runtime.getRuntime().totalMemory() / 1024 / 1024); */
+                        /* fmemText.setText(Formatter.formatShortFileSize(activity, (runtime.totalMemory() - runtime.freeMemory())) +
+                            "/" + Formatter.formatShortFileSize(activity, runtime.totalMemory()) + "    "); */
+                        fmemText.setText(
+                            ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024) + " MB"
+                            + "/" + (Runtime.getRuntime().totalMemory() / 1024 / 1024) + " MB    ");
                         fmemText.setPosition(Config.getRES_WIDTH() - fmemText.getWidth() - 5, urText.getY() - fmemText.getHeight());
                     }
 
