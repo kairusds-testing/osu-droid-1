@@ -2,7 +2,6 @@ package ru.nsu.ccfit.zuev.osu.game;
 
 import android.graphics.PointF;
 import android.os.SystemClock;
-// import android.text.format.Formatter;
 
 import com.dgsrz.bancho.game.sprite.VideoSprite;
 import com.edlplan.ext.EdExtensionHelper;
@@ -759,31 +758,17 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
 
             final ChangeableText fmemText = memText;
             fgScene.registerUpdateHandler(new FPSCounter() {
-                // MainActivity activity = GlobalManager.getInstance().getMainActivity();
-                // int elapsedInt = 0;
-
                 @Override
                 public void onUpdate(final float pSecondsElapsed) {
                     super.onUpdate(pSecondsElapsed);
-                    // elapsedInt++;
                     fpsText.setText(Math.round(this.getFPS()) + " FPS");
-                    /* if (offsetRegs != 0 && elapsedInt > 200) {
-                        float mean = avgOffset / offsetRegs;
-                        accText.setText("Avg offset: "
-                                + (int) (mean * 1000f)
-                                + "ms");
-                        elapsedInt = 0;
-                    }*/ 
                     urText.setText(String.format(Locale.ENGLISH, "%.2f UR    ", stat.getUnstableRate()));
 
                     fpsText.setPosition(Config.getRES_WIDTH() - fpsText.getWidth() - 5, Config.getRES_HEIGHT() - fpsText.getHeight() - 10);
-                    // accText.setPosition(Config.getRES_WIDTH() - accText.getWidth() - 5, fpsText.getY() - accText.getHeight());
                     urText.setPosition(Config.getRES_WIDTH() - urText.getWidth() - 5, fpsText.getY() - urText.getHeight());
 
                     if (fmemText != null) {
                         Runtime runtime = Runtime.getRuntime();
-                        /* fmemText.setText(Formatter.formatShortFileSize(activity, (runtime.totalMemory() - runtime.freeMemory())) +
-                            "/" + Formatter.formatShortFileSize(activity, runtime.totalMemory()) + "    "); */
                         fmemText.setText(
                             ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024) + " MB"
                             + "/" + (Runtime.getRuntime().totalMemory() / 1024 / 1024) + " MB    ");
