@@ -55,7 +55,7 @@ jobs:
         files: |
           info.json
           ${{ env.APK_PATH }}
-        tag_name: "${{ github.run_number }}-${{ github.run_id }}_${{ steps.apk-info.outputs.version-name }}"
+        tag_name: "${{ github.run_number }}-${{ github.run_id }}_${{ steps.apk-info.outputs.version-code }}"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
