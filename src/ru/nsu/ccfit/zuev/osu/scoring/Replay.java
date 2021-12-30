@@ -105,14 +105,14 @@ public class Replay {
         if (pid > GameScene.CursorCount) return;
 
         int itime = Math.max(0, (int) (time * 1000));
-        cursorMoves.get(pid).pushBack(itime, pos.x, pos.y, ID_DOWN);
+        cursorMoves.get(pid).pushBack(itime, (short) pos.x, (short) pos.y, ID_DOWN);
     }
 
     public void addMove(final float time, final PointF pos, final int pid) {
         if (pid > GameScene.CursorCount) return;
 
         int itime = Math.max(0, (int) (time * 1000));
-        cursorMoves.get(pid).pushBack(itime, pos.x, pos.y, ID_MOVE);
+        cursorMoves.get(pid).pushBack(itime, (short) pos.x, (short) pos.y, ID_MOVE);
     }
 
     public void addUp(final float time, final int pid) {
@@ -163,7 +163,7 @@ public class Replay {
                 os.writeBoolean(stat.isPerfect());
                 os.writeObject(stat.getPlayerName());
                 os.writeObject(stat.getMod());
-                //Add in replay version
+                //Add in replay version 4
                 os.writeObject(stat.getExtraModString());
             }
 
@@ -265,7 +265,6 @@ public class Replay {
 
         } catch (EOFException e) {
             Debug.e("O_o eof...");
-            Debug.e("Replay.loadInfo: " + e.getMessage(), e);
             ToastLogger.showTextId(R.string.replay_corrupted, true);
             return false;
 
@@ -367,11 +366,11 @@ public class Replay {
                 objectData[i] = data;
             }
         } catch (EOFException e) {
-            Debug.e("Replay.load: " + e.getMessage(), e);
+            Debug.e("O_o eof...");
             ToastLogger.showTextId(R.string.replay_corrupted, true);
             return false;
-        }
-        catch (Exception e) {
+
+        } catch (Exception e) {
             ToastLogger.showTextId(R.string.replay_corrupted, true);
             Debug.e("Cannot load replay: " + e.getMessage(), e);
             return false;
@@ -408,9 +407,8 @@ public class Replay {
 
     public static class ReplayVersion implements Serializable {
         private static final long serialVersionUID = 4643121693566795335L;
-        int version = 5;
+        int version = 4;
         // version 4: Add ExtraModString's save and load in save()/load()/loadInfo()
-        // version 5: changed gamePoints to be a float type
     }
 
     public static class ReplayObjectData {
@@ -421,8 +419,8 @@ public class Replay {
 
     public static class MoveArray {
         public int[] time;
-        public float[] x;
-        public float[] y;
+        public short[] x;
+        public short[] y;
         public byte[] id;
 
         public int size;
@@ -432,8 +430,8 @@ public class Replay {
             allocated = startSize;
             size = 0;
             time = new int[allocated];
-            x = new float[allocated];
-            y = new float[allocated];
+            x = new short[allocated];
+            y = new short[allocated];
             id = new byte[allocated];
         }
 
@@ -446,24 +444,20 @@ public class Replay {
                 array.id[i] = (byte) (array.time[i] & 3);
                 array.time[i] >>= 2;
                 if (array.id[i] != ID_UP) {
-                    PointF gamePoint;
-
-                    if(replay.replayVersion >= 5) {
-                        gamePoint = new PointF((float) (Math.round(is.readFloat()) / Config.getTextureQuality()),
-                                (float) (Math.round(is.readFloat()) / Config.getTextureQuality()));
-                    }else {
-                        gamePoint = new PointF((float) (is.readShort() / Config.getTextureQuality()),
-                            (float) (is.readShort() / Config.getTextureQuality()));
-                    }
-
+                    PointF gamePoint = new PointF((short) (is.readShort() / Config.getTextureQuality()),
+                            (short) (is.readShort() / Config.getTextureQuality()));
+					/*if (GameHelper.isHardrock())
+					{
+						array.y[i] = Utils.flipY(array.y[i]);
+					}*/
                     if (replay.replayVersion == 1) {
                         PointF realPoint = Utils.trackToRealCoords(Utils.realToTrackCoords(gamePoint, 1024, 600, true));
-                        array.x[i] = realPoint.x;
-                        array.y[i] = realPoint.y;
+                        array.x[i] = (short) realPoint.x;
+                        array.y[i] = (short) realPoint.y;
                     } else if (replay.replayVersion > 1) {
                         PointF realPoint = Utils.trackToRealCoords(gamePoint);
-                        array.x[i] = realPoint.x;
-                        array.y[i] = realPoint.y;
+                        array.x[i] = (short) realPoint.x;
+                        array.y[i] = (short) realPoint.y;
                     }
                 }
                 array.size = size;
@@ -475,8 +469,8 @@ public class Replay {
         public void reallocate(int newSize) {
             if (newSize <= allocated) return;
             int[] newTime = new int[newSize];
-            float[] newX = new float[newSize];
-            float[] newY = new float[newSize];
+            short[] newX = new short[newSize];
+            short[] newY = new short[newSize];
             byte[] newId = new byte[newSize];
 
             System.arraycopy(time, 0, newTime, 0, size);
@@ -492,7 +486,7 @@ public class Replay {
             allocated = newSize;
         }
 
-        public boolean checkNewPoint(float px, float py) {
+        public boolean checkNewPoint(short px, short py) {
             if (size < 2) return false;
             float tx = (px + x[size - 2]) * 0.5f;
             float ty = (py + y[size - 2]) * 0.5f;
@@ -500,7 +494,7 @@ public class Replay {
             return (Utils.sqr(x[size - 1] - tx) + Utils.sqr(y[size - 1] - ty)) <= 25;
         }
 
-        public void pushBack(int time, float x, float y, byte id) {
+        public void pushBack(int time, short x, short y, byte id) {
             int idx = size;
             if (id == ID_MOVE && checkNewPoint(x, y)) {
                 idx = size - 1;
@@ -529,8 +523,8 @@ public class Replay {
             for (int i = 0; i < size; i++) {
                 os.writeInt((time[i] << 2) + id[i]);
                 if (id[i] != ID_UP) {
-                    os.writeFloat(x[i] * Config.getTextureQuality());
-                    os.writeFloat(y[i] * Config.getTextureQuality());
+                    os.writeShort(x[i] * Config.getTextureQuality());
+                    os.writeShort(y[i] * Config.getTextureQuality());
                 }
             }
         }
