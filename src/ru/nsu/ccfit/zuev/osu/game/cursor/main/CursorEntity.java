@@ -37,7 +37,8 @@ public class CursorEntity extends Entity {
     }
 
     public void setShowing(boolean showing) {
-        this.isShowing = showing;
+        isShowing = showing;
+        setVisible(showing);
         if (particles != null)
             particles.setParticlesSpawnEnabled(showing);
     }
@@ -47,8 +48,10 @@ public class CursorEntity extends Entity {
     }
 
     public void update(float pSecondsElapsed) {
-        this.handleLongerTrail();
-        cursorSprite.update(pSecondsElapsed, isShowing);
+        // this.handleLongerTrail();
+        if(isShowing) {
+            cursorSprite.update(pSecondsElapsed);
+        }
         super.onManagedUpdate(pSecondsElapsed);
     }
 
