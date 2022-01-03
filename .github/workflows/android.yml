@@ -62,8 +62,3 @@ jobs:
       with:
         name: osu-droid
         path: ${{ env.APK_PATH }}
-
-    - name: Build apk
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: build
