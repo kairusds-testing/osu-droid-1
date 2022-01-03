@@ -55,9 +55,8 @@ public class CursorEntity extends Entity {
         super.onManagedUpdate(pSecondsElapsed);
     }
 
-    private void handleLongerTrail() {
-        //TODO:finish Longer Tail
-        /*
+    // TODO:finish Longer Tail
+    /* private void handleLongerTrail() {  
         if (isShowing && Config.isUseLongTrail()) {
             if (oldPoint != null){
                 float px = cursorSprite.getX() - oldPoint.x;
@@ -96,8 +95,8 @@ public class CursorEntity extends Entity {
                     }
                 }
             }
-        }*/
-    }
+        }
+    } */
 
     public void attachToScene(Scene fgScene) {
         if (particles != null) {
