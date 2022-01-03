@@ -16,7 +16,6 @@ public class CursorSprite extends Sprite implements ISliderListener {
     private final float clickAnimationTime = 0.5f / 2f;
     private ParallelEntityModifier previousClickModifier;
     private RotationByModifier currentRotation;
-    private boolean rotate = OsuSkin.get().isRotateCursor();
     private final boolean rotate = OsuSkin.get().isRotateCursor();
 
     public CursorSprite(float pX, float pY, TextureRegion pTextureRegion) {
@@ -74,4 +73,3 @@ public class CursorSprite extends Sprite implements ISliderListener {
     public void onSliderEnd() {
         registerEntityModifier(clickOutModifier());
     }
-}
