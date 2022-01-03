@@ -69,8 +69,6 @@ public class Updater {
 
                     ResponseBody response = httpGet(OnlineManager.endpoint + "update.php");
                     UpdateVO updateInfo = new Gson().fromJson(response.string(), UpdateVO.class);
-                    Debug.i("updateInfo body: " + updateInfo.getBody());
-
                     if(!newUpdate && updateInfo.getVersionCode() > mActivity.getVersionCode()) {
                         changelogMsg = updateInfo.getChangelog();
                         downloadUrl = updateInfo.getLink();
