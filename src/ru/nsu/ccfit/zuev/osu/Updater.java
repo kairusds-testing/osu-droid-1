@@ -16,9 +16,6 @@ import okhttp3.Request;
 
 import org.anddev.andengine.util.Debug;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ru.nsu.ccfit.zuev.osu.async.AsyncTaskLoader;
 import ru.nsu.ccfit.zuev.osu.async.OsuAsyncCallback;
 import ru.nsu.ccfit.zuev.osu.helper.StringTable;
