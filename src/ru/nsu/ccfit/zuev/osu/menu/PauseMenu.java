@@ -39,25 +39,6 @@ public class PauseMenu implements IOnMenuItemClickListener {
         this.game = game;
         this.fail = fail;
         replaySaved = false;
-        /* final ChangeableText saveFailedReplay = new ChangeableText(Utils.toRes(4), Utils.toRes(2),
-                ResourceManager.getInstance().getFont("font"), StringTable.get(R.string.str_save_failed_replay));
-        class PauseMenuScene extends MenuScene implements IOnSceneTouchListener{
-            PauseMenuScene(final Camera pCamera){
-                super(pCamera);
-            }
-            public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-                float pTouchX = FMath.clamp(pSceneTouchEvent.getX(), 0, Config.getRES_WIDTH());
-                float pTouchY = FMath.clamp(pSceneTouchEvent.getY(), 0, Config.getRES_HEIGHT());
-                if (fail && pSceneTouchEvent.isActionUp() && pTouchX < Config.getRES_WIDTH() / 2 && pTouchY < 50 && savedFailedReplay == false && game.getReplaying() == false){
-                    //save replay
-                    if (game.saveFailedReplay()){
-                        saveFailedReplay.setText(StringTable.get(R.string.message_save_replay_successful));
-                        savedFailedReplay = true;
-                    }
-                }
-                return true;
-            }
-        } */
         scene = new MenuScene(engine.getCamera());
 
         final SpriteMenuItem saveFailedReplay = new SpriteMenuItem(ITEM_SAVE_REPLAY,
@@ -72,7 +53,6 @@ public class PauseMenu implements IOnMenuItemClickListener {
         final SpriteMenuItem itemBack = new SpriteMenuItem(ITEM_BACK,
                 ResourceManager.getInstance().getTexture("pause-back"));
         scene.addMenuItem(itemBack);
-        // scene.attachChild(saveFailedReplay);
         scene.setBackgroundEnabled(false);
         TextureRegion tex;
         if (fail) {
@@ -87,7 +67,6 @@ public class PauseMenu implements IOnMenuItemClickListener {
         }
 
         if (tex != null) {
-//			scene.setBackgroundEnabled(true);
             float height = tex.getHeight();
             height *= Config.getRES_WIDTH() / (float) (tex.getWidth());
             final Sprite bg = new Sprite(0,
@@ -115,11 +94,9 @@ public class PauseMenu implements IOnMenuItemClickListener {
         BassSoundProvider playSnd;
         switch (pMenuItem.getID()) {
             case ITEM_SAVE_REPLAY:
-                if(fail && !replaySaved && !game.getReplaying()){
-                    if (game.saveFailedReplay()){
-                        ToastLogger.showTextId(R.string.message_save_replay_successful, true);
-                        replaySaved = true;
-                    }
+                if(fail && !replaySaved && !game.getReplaying() && game.saveFailedReplay()){
+                    ToastLogger.showTextId(R.string.message_save_replay_successful, true);
+                    replaySaved = true;
                 }else {
                     return false;
                 }
