@@ -60,7 +60,7 @@ public class PauseMenu implements IOnMenuItemClickListener {
         } */
         scene = new MenuScene(engine.getCamera());
 
-        final ChangeableText saveFailedReplay = new SpriteMenuItem(ITEM_CONTINUE,
+        final SpriteMenuItem saveFailedReplay = new SpriteMenuItem(ITEM_SAVE_REPLAY,
                 ResourceManager.getInstance().getTexture("pause-save-replay"));
         scene.addMenuItem(saveFailedReplay);
         final SpriteMenuItem itemContinue = new SpriteMenuItem(ITEM_CONTINUE,
