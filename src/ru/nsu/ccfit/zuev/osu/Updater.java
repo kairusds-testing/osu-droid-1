@@ -68,7 +68,7 @@ public class Updater {
                     if (hasFocus && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { 
                         lang = mActivity.getResources().getConfiguration().getLocales().get(0).getLanguage();
                     }else {
-                        lang = getResources().getConfiguration().locale.getLanguage();
+                        lang = mActivity.getResources().getConfiguration().locale.getLanguage();
                     }
                     ResponseBody response = httpGet(OnlineManager.endpoint + "update.php?lang=" + lang);
                     UpdateVO updateInfo = new Gson().fromJson(response.string(), UpdateVO.class);
