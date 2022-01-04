@@ -64,7 +64,8 @@ public class Updater {
                         }
                     });
 
-                    ResponseBody response = httpGet(OnlineManager.endpoint + "update.php");
+					String lang = mActivity.getResources().getConfiguration().getLocales().get(0).getLanguage();
+                    ResponseBody response = httpGet(OnlineManager.endpoint + "update.php?lang=" + lang);
                     UpdateVO updateInfo = new Gson().fromJson(response.string(), UpdateVO.class);
                     if(!newUpdate && updateInfo.getVersionCode() > mActivity.getVersionCode()) {
                         changelogMsg = updateInfo.getChangelog();
