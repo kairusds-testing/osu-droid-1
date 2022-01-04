@@ -65,7 +65,7 @@ public class Updater {
                     });
 
                     String lang;
-                    if (hasFocus && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { 
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { 
                         lang = mActivity.getResources().getConfiguration().getLocales().get(0).getLanguage();
                     }else {
                         lang = mActivity.getResources().getConfiguration().locale.getLanguage();
