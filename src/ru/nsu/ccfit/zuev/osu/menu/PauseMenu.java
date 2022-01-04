@@ -97,7 +97,7 @@ public class PauseMenu implements IOnMenuItemClickListener {
                 if(fail && !replaySaved && !game.getReplaying() && game.saveFailedReplay()){
                     ToastLogger.showTextId(R.string.message_save_replay_successful, true);
                     replaySaved = true;
-                    return true;
+                    return false;
                 }
                 return true;
 
