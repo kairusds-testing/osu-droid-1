@@ -196,14 +196,6 @@ public class Config {
             comboColors[i - 1] = RGBColor.hex2Rgb(ColorPickerPreference.convertToRGB(prefs.getInt("combo" + i, 0xff000000)));
         }
 
-        // skins
-        File[] folders = FileUtils.listFiles(new File(skinTopPath), file -> file.isDirectory() && !file.getName().startsWith("."));
-        skins = new HashMap<String, String>();
-        for(File folder : folders) {
-            skins.put(folder.getName(), folder.getPath());
-            Debug.i("skins: " + folder.getName() + " - " + folder.getPath());
-        }
-
         // beatmaps
         DELETE_OSZ = prefs.getBoolean("deleteosz", true);
         SCAN_DOWNLOAD = prefs.getBoolean("scandownload", false);
@@ -765,6 +757,15 @@ public class Config {
 
     public static String getDefaultCorePath() {
         return defaultCorePath;
+    }
+
+    public static void loadSkins() {
+        File[] folders = FileUtils.listFiles(new File(skinTopPath), file -> file.isDirectory() && !file.getName().startsWith("."));
+        skins = new HashMap<String, String>();
+        for(File folder : folders) {
+            skins.put(folder.getName(), folder.getPath());
+            Debug.i("skins: " + folder.getName() + " - " + folder.getPath());
+        }
     }
 
     public static Map<String, String> getSkins(){
