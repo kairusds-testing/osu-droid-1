@@ -6,6 +6,7 @@ import android.os.Environment;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -176,7 +177,7 @@ public class FileUtils {
         return null;
     }
 
-    public static File[] listFiles(File directory, FileUtilsFilter filter) {
+    public static File[] listFiles(File directory, FileFilter filter) {
         File[] filelist = null;
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             filelist = directory.listFiles(pathname -> filter.accept(pathname));
@@ -200,8 +201,8 @@ public class FileUtils {
         return filelist;
     }
 
-    public interface FileUtilsFilter {
+    /* public interface FileUtilsFilter {
         boolean accept(File file);
-    }
+    } */
 
 }
