@@ -196,7 +196,7 @@ public class FileUtils {
             }
             filelist = cachedFiles.toArray(new File[cachedFiles.size()]);
         }else {
-            filelist = directory.listFiles(pathname -> filter.accept(pathname));
+            filelist = directory.listFiles(filter);
         }
         return filelist;
     }
