@@ -138,13 +138,13 @@ public class Config {
             soundVolume = prefs.getInt("soundvolume", 100) / 100f;
             bgmVolume = prefs.getInt("bgmvolume", 100) / 100f;
             cursorSize = prefs.getInt("cursorSize", 50) / 100f;
-        }catch(RuntimeException e) { // migrate to integers to prevent crash
+        }catch(RuntimeException e) { // use valid integer since this makes the game crash on android m
             prefs.edit()
-                .putInt("offset", Integer.parseInt(prefs.getString("offset", "0")))
-                .putInt("bgbrightness", Integer.parseInt(prefs.getString("bgbrightness", "25")))
-                .putInt("soundvolume", Integer.parseInt(prefs.getString("soundvolume", "100")))
-                .putInt("bgmvolume", Integer.parseInt(prefs.getString("bgmvolume", "100")))
-                .putInt("cursorSize", Integer.parseInt(prefs.getString("cursorSize", "50")))
+                .putInt("offset", 0)
+                .putInt("bgbrightness", 25)
+                .putInt("soundvolume", 100)
+                .putInt("bgmvolume", 100)
+                .putInt("cursorSize", 50)
                 .commit();
             Config.loadConfig(context);
         }
