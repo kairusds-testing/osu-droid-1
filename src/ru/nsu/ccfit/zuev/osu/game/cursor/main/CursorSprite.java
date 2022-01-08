@@ -73,4 +73,5 @@ public class CursorSprite extends Sprite implements ISliderListener {
     public void onSliderEnd() {
         registerEntityModifier(clickOutModifier());
     }
+
 }
