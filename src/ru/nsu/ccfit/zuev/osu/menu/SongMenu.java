@@ -585,7 +585,7 @@ public class SongMenu implements IUpdateHandler, MenuItemListener,
         frontLayer.attachChild(randomMap);
         scene.registerTouchArea(randomMap);
 
-        if (OnlineScoring.getInstance().createSecondPanel() != null) {
+        // if (OnlineScoring.getInstance().createSecondPanel() != null) {
             OnlinePanel panel = OnlineScoring.getInstance().getSecondPanel();
             panel.detachSelf();
             panel.setPosition(randomMap.getX() + randomMap.getWidthScaled() - 18, Config.getRES_HEIGHT() - Utils.toRes(110));
@@ -607,7 +607,7 @@ public class SongMenu implements IUpdateHandler, MenuItemListener,
             scoringSwitcher.setPosition(10, 10);
             scene.registerTouchArea(scoringSwitcher);
             frontLayer.attachChild(scoringSwitcher);
-        }
+        // }
     }
 
     public void toggleScoringSwitcher() {
