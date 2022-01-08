@@ -195,7 +195,7 @@ public class FileUtils {
                 Debug.e("FileUtils.listFiles: " + err.getMessage(), err);
             }
             filelist = cachedFiles.toArray(new File[cachedFiles.size()]);
-        }else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        }else {
             filelist = directory.listFiles(pathname -> filter.accept(pathname));
         }
         return filelist;
