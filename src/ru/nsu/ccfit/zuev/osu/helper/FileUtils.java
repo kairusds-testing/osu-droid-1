@@ -2,11 +2,11 @@ package ru.nsu.ccfit.zuev.osu.helper;
 
 import android.os.Build;
 import android.os.Environment;
+import androidx.annotation.RequiresApi;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -121,7 +121,6 @@ public class FileUtils {
         return sb.toString();
     }
 
-    // Need to make this more accurate
     public static boolean canUseSD() {
         if (Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED)) {
@@ -177,32 +176,31 @@ public class FileUtils {
         return null;
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     public static File[] listFiles(File directory, FileFilter filter) {
         File[] filelist = null;
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            filelist = directory.listFiles(pathname -> filter.accept(pathname));
-        }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            LinkedList<File> cachedFiles = new LinkedList<File>();
-            DirectoryStream.Filter<Path> directoryFilter = new DirectoryStream.Filter<Path>() {
-                @Override
-                public boolean accept(Path entry) {
-                    return filter.accept(entry.toFile());
-                }
-            };
-            try(DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(directory.getAbsolutePath()), directoryFilter)) {
-                for(Path path : stream) {
-                    cachedFiles.add(path.toFile());
-                }
-            }catch(Exception err) {
-                Debug.e("FileUtils.listFiles: " + err.getMessage(), err);
+        LinkedList<File> cachedFiles = new LinkedList<File>();
+        DirectoryStream.Filter<Path> directoryFilter = new DirectoryStream.Filter<Path>() {
+            @Override
+            public boolean accept(Path entry) {
+                return filter.accept(entry.toFile());
             }
-            filelist = cachedFiles.toArray(new File[cachedFiles.size()]);
+        };
+        try(DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(directory.getAbsolutePath()), directoryFilter)) {
+            for(Path path : stream) {
+                cachedFiles.add(path.toFile());
+            }
+        }catch(Exception err) {
+            Debug.e("FileUtils.listFiles: " + err.getMessage(), err);
         }
+        filelist = cachedFiles.toArray(new File[cachedFiles.size()]);
         return filelist;
     }
 
-    /* public interface FileUtilsFilter {
-        boolean accept(File file);
-    } */
+    public static File[] listFiles(File directory, FileFilter filter) {
+        File[] filelist = null;
+        filelist = directory.listFiles(pathname -> filter.accept(pathname));
+        return filelist;
+    }
 
 }
