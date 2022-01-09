@@ -719,7 +719,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                 }
             }
         });
-        ResourceManager.getInstance().getSound("failsound").stop();
+        ResourceManager.getInstance().playSound("failsound");
     }
 
     private void prepareScene() {
@@ -1934,7 +1934,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                         totalLength = GlobalManager.getInstance().getSongService().getLength();
                         musicStarted = true;
                     }
-                    ResourceManager.getInstance().getSound("menuhit").play();
+                    ResourceManager.getInstance().playSound("menuhit");
                     final float difference = skipTime - 0.5f - secPassed;
                     for (final GameObject obj : passiveObjects) {
                         obj.update(difference);
@@ -2017,7 +2017,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
         }
 
         onExit();
-        ResourceManager.getInstance().getSound("failsound").stop();
+        ResourceManager.getInstance().stopSound("failsound");
         if (GlobalManager.getInstance().getCamera() instanceof SmoothCamera) {
             SmoothCamera camera = (SmoothCamera) (GlobalManager.getInstance().getCamera());
             camera.setZoomFactorDirect(1f);
@@ -2432,10 +2432,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
 
     public void stopSound(final String name) {
         final String prefix = soundTimingPoint.getHitSound() + "-";
-        final BassSoundProvider snd = ResourceManager.getInstance().getSound(prefix + name);
-        if (snd != null) {
-            snd.stop();
-        }
+       ResourceManager.getInstance().stopSound(prefix + name);
     }
 
     public void pause() {
@@ -2466,7 +2463,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
         }
 
         if(scorebar != null) scorebar.flush();
-        ResourceManager.getInstance().getSound("failsound").play();
+        ResourceManager.getInstance().playSound("failsound");
         final PauseMenu menu = new PauseMenu(engine, this, true);
         gameStarted = false;
         /*if (music != null && music.getStatus() == Status.PLAYING) {

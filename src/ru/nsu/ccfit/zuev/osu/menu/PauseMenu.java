@@ -15,7 +15,6 @@ import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
-import ru.nsu.ccfit.zuev.audio.BassSoundProvider;
 import ru.nsu.ccfit.zuev.osu.Config;
 import ru.nsu.ccfit.zuev.osu.GlobalManager;
 import ru.nsu.ccfit.zuev.osu.ResourceManager;
@@ -91,7 +90,6 @@ public class PauseMenu implements IOnMenuItemClickListener {
         if (pMenuItem.getAlpha() < 0.75f) {
             return false;
         }
-        BassSoundProvider playSnd;
         switch (pMenuItem.getID()) {
             case ITEM_SAVE_REPLAY:
                 if(fail && !replaySaved && !game.getReplaying() && game.saveFailedReplay()){
@@ -105,29 +103,20 @@ public class PauseMenu implements IOnMenuItemClickListener {
                 if (fail) {
                     return false;
                 }
-                playSnd = ResourceManager.getInstance().getSound("menuback");
-                if (playSnd != null) {
-                    playSnd.play();
-                }
+                ResourceManager.getInstance().playSound("menuback");
                 game.resume();
                 return true;
 
             case ITEM_BACK:
                 GlobalManager.getInstance().getScoring().setReplayID(-1);
-                playSnd = ResourceManager.getInstance().getSound("menuback");
-                if (playSnd != null) {
-                    playSnd.play();
-                }
+                ResourceManager.getInstance(). playSound("menuback");
                 game.resume();
                 game.quit();
                 return true;
 
             case ITEM_RETRY:
-                ResourceManager.getInstance().getSound("failsound").stop();
-                playSnd = ResourceManager.getInstance().getSound("menuhit");
-                if (playSnd != null) {
-                    playSnd.play();
-                }
+                ResourceManager.getInstance().stopSound("failsound");
+                ResourceManager.getInstance().playSound("menuhit");
                 game.restartGame();
                 return true;
         }

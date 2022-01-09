@@ -777,7 +777,7 @@ public class MainActivity extends BaseGameActivity implements
             GlobalManager.getInstance().getScoring().replayMusic();
             GlobalManager.getInstance().getEngine().setScene(GlobalManager.getInstance().getSongMenu().getScene());
             GlobalManager.getInstance().getSongMenu().updateScore();
-            ResourceManager.getInstance().getSound("applause").stop();
+            ResourceManager.getInstance().stopSound("applause");
             GlobalManager.getInstance().getScoring().setReplayID(-1);
             return true;
         }

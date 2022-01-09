@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
-import ru.nsu.ccfit.zuev.audio.BassSoundProvider;
 import ru.nsu.ccfit.zuev.audio.Status;
 import ru.nsu.ccfit.zuev.osu.BeatmapInfo;
 import ru.nsu.ccfit.zuev.osu.Config;
@@ -329,10 +328,7 @@ public class SongMenu implements IUpdateHandler, MenuItemListener,
                         moved = false;
                         dx = pTouchAreaLocalX;
                         dy = pTouchAreaLocalY;
-                        BassSoundProvider playSnd = ResourceManager.getInstance().getSound("menuback");
-                        if (playSnd != null) {
-                            playSnd.play();
-                        }
+                        ResourceManager.getInstance().playSound("menuback");
                         return true;
                     }
                     if (pSceneTouchEvent.isActionUp()) {
@@ -376,10 +372,7 @@ public class SongMenu implements IUpdateHandler, MenuItemListener,
                         moved = false;
                         dx = pTouchAreaLocalX;
                         dy = pTouchAreaLocalY;
-                        BassSoundProvider playSnd = ResourceManager.getInstance().getSound("menuback");
-                        if (playSnd != null) {
-                            playSnd.play();
-                        }
+                        ResourceManager.getInstance().playSound("menuback");
                         return true;
                     }
                     if (pSceneTouchEvent.isActionUp()) {
@@ -520,8 +513,7 @@ public class SongMenu implements IUpdateHandler, MenuItemListener,
                         if (selectedItem == items.get(index)) {
                             return true;
                         }
-                        ResourceManager.getInstance().getSound("menuclick")
-                                .play();
+                        ResourceManager.getInstance().playSound("menuclick");
                         items.get(index).select(true, true);
                     }
                     return true;
@@ -1001,7 +993,7 @@ public class SongMenu implements IUpdateHandler, MenuItemListener,
                 }
             }
 
-            ResourceManager.getInstance().getSound("menuhit").play();
+            ResourceManager.getInstance().playSound("menuhit");
             stopMusic();
             game.startGame(track, null);
             unload();

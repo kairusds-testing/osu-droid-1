@@ -205,11 +205,11 @@ public class ScoringScene {
                                          final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.isActionDown()) {
                     setColor(0.7f, 0.7f, 0.7f);
-                    ResourceManager.getInstance().getSound("menuback").play();
+                    ResourceManager.getInstance().playSound("menuback");
                     return true;
                 }
                 if (pSceneTouchEvent.isActionUp()) {
-                    ResourceManager.getInstance().getSound("applause").stop();
+                    ResourceManager.getInstance().stopSound("applause");
                     GlobalManager.getInstance().getScoring().setReplayID(-1);
                     menu.updateScore();
 //					stopMusic();
@@ -232,11 +232,11 @@ public class ScoringScene {
                                          final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.isActionDown()) {
                     setColor(0.7f, 0.7f, 0.7f);
-                    ResourceManager.getInstance().getSound("menuback").play();
+                    ResourceManager.getInstance().playSound("menuback");
                     return true;
                 }
                 if (pSceneTouchEvent.isActionUp()) {
-                    ResourceManager.getInstance().getSound("applause").stop();
+                    ResourceManager.getInstance().stopSound("applause");
                     engine.setScene(menu.getScene());
                     game.startGame(null, null);
                     scene = null;
@@ -261,11 +261,11 @@ public class ScoringScene {
                                          final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.isActionDown()) {
                     setColor(0.7f, 0.7f, 0.7f);
-                    ResourceManager.getInstance().getSound("menuback").play();
+                    ResourceManager.getInstance().playSound("menuback");
                     return true;
                 }
                 if (pSceneTouchEvent.isActionUp()) {
-                    ResourceManager.getInstance().getSound("applause").stop();
+                    ResourceManager.getInstance().stopSound("applause");
                     SongMenu.stopMusicStatic();
                     engine.setScene(menu.getScene());
                     Replay.oldMod = ModMenu.getInstance().getMod();
@@ -483,7 +483,7 @@ public class ScoringScene {
 
         //save and upload score
         if (track != null && mapMD5 != null) {
-            ResourceManager.getInstance().getSound("applause").play();
+            ResourceManager.getInstance().playSound("applause");
             ScoreLibrary.getInstance().addScore(track.getFilename(), stat, replay);
             if (stat.getModifiedTotalScore() > 0 && OnlineManager.getInstance().isStayOnline() &&
                     OnlineManager.getInstance().isReadyToSend()) {

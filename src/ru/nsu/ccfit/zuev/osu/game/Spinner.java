@@ -306,7 +306,7 @@ public class Spinner extends GameObject {
                 listener.onSpinnerHit(id, 1000, false, 0);
                 score++;
                 bonusScore.attachToScene(scene);
-                ResourceManager.getInstance().getSound("spinnerbonus").play();
+                ResourceManager.getInstance().playSound("spinnerbonus");
                 float rate = 0.375f;
                 if (GameHelper.getDrain() > 0) {
                     rate = 1 + (GameHelper.getDrain() / 4f);

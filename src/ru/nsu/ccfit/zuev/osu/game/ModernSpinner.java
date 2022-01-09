@@ -192,7 +192,7 @@ public class ModernSpinner extends Spinner {
                 listener.onSpinnerHit(id, 1000, false, 0);
                 score++;
                 bonusScore.attachToScene(scene);
-                ResourceManager.getInstance().getSound("spinnerbonus").play();
+                ResourceManager.getInstance().playSound("spinnerbonus");
                 glow.registerEntityModifier(new SequenceEntityModifier(
                         new ColorModifier(0.1f, 0f, 1f, 0.8f, 1f, 1f, 1f),
                         new ColorModifier(0.1f, 1f, 0f, 1f, 0.8f, 1f, 1f)

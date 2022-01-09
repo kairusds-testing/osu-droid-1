@@ -633,6 +633,20 @@ public class ResourceManager {
         return snd;
     }
 
+    public void playSound(final String resname) {
+        BassSoundProvider sound = sounds.get(resname);
+        if(sound != null) {
+            sound.play();
+        }
+    }
+
+    public void stopSound(final String resname) {
+        BassSoundProvider sound = sounds.get(resname);
+        if(sound != null) {
+            sound.stop();
+        }
+    }
+
     public BassSoundProvider getSound(final String resname) {
         return sounds.get(resname);
     }

@@ -153,7 +153,7 @@ public class MenuItemTrack extends Sprite {
                 return true;
             }
             if (!item.get().isTrackSelected(this)) {
-                ResourceManager.getInstance().getSound("menuclick").play();
+                ResourceManager.getInstance().playSound("menuclick");
                 item.get().deselectTrack();
             }
             item.get().selectTrack(this, false);
