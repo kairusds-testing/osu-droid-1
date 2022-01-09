@@ -38,6 +38,7 @@ public class SkinPathPreference extends ListPreference {
 
     public void reloadSkinList() {
         try {
+            Config.loadSkins();
             File skinMain = new File(Config.getSkinTopPath());
             Map<String, String> skins = new HashMap<String, String>(Config.getSkins());
             int skinsSize = (skins.size() > 0) ? skins.size() + 1 : 1;

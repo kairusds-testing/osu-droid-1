@@ -762,9 +762,11 @@ public class Config {
     public static void loadSkins() {
         File[] folders = FileUtils.listFiles(new File(skinTopPath), file -> file.isDirectory() && !file.getName().startsWith("."));
         skins = new HashMap<String, String>();
-        for(File folder : folders) {
-            skins.put(folder.getName(), folder.getPath());
-            Debug.i("skins: " + folder.getName() + " - " + folder.getPath());
+        if(folders != null) {
+            for(File folder : folders) {
+                skins.put(folder.getName(), folder.getPath());
+                Debug.i("skins: " + folder.getName() + " - " + folder.getPath());
+            }
         }
     }
 
