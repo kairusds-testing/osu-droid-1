@@ -93,7 +93,7 @@ public class GameScoreText {
     public void setVisible(final boolean visible) {
         this.visible = visible;
         for(AnimSprite digit : digits) {
-            digit.setVisible(false);
+            digit.setVisible(visible);
         }
     }
 
