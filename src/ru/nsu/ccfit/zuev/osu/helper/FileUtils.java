@@ -197,7 +197,6 @@ public class FileUtils {
         }else {
             return directory.listFiles(filter);
         }
-        return null;
     }
 
 }
