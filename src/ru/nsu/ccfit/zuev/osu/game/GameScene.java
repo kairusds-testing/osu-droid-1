@@ -972,6 +972,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
 
         if(Config.getHideInGameUI() == 1) {
             removePassiveObject(scorebar);
+            scorebar.setVisible(false);
             scorebar = null;
             setUIVisible(false);
             ToastLogger.showText("ghigui " + Config.getHideInGameUI(), false);
