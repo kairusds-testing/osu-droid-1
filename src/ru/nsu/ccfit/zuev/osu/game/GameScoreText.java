@@ -15,6 +15,7 @@ public class GameScoreText {
     private final ArrayList<AnimSprite> digits = new ArrayList<AnimSprite>();
     private float scale = 0;
     private boolean hasX = false;
+    private boolean visible = true;
 
     public GameScoreText(final float x, final float y, final String mask,
                          final float scale) {
@@ -58,14 +59,20 @@ public class GameScoreText {
             }
             if (text.charAt(i) >= '0' && text.charAt(i) <= '9') {
                 int digit = text.charAt(i) - '0';
-                digits.get(j).setVisible(true);
+
+                if(visible) {
+                    digits.get(j).setVisible(true);
+                }
+
                 digits.get(j).setFrame(digit);
                 digits.get(j).setWidth(digits.get(j).getFrameWidth() * scale);
                 digits.get(j).setPosition(digits.get(0).getX() + digitsWidth, digits.get(j).getY());
                 digitsWidth += digits.get(j).getWidth();
                 j++;
             } else if (text.charAt(i) == '*') {
-                digits.get(j).setVisible(false);
+                if(visible) {
+                    digits.get(j).setVisible(false);
+                }
                 j++;
                 // TODO
             } else {
@@ -84,8 +91,9 @@ public class GameScoreText {
     }
 
     public void setVisible(final boolean visible) {
+        this.visible = visible;
         for(AnimSprite digit : digits) {
-            digit.setVisible(visible);
+            digit.setVisible(false);
         }
     }
 

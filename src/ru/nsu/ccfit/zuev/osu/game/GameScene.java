@@ -968,16 +968,20 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                 scoreShadow.attachToScene(bgScene);
                 passiveObjects.add(scoreShadow);
             }
+        }
 
+        if(Config.getHideInGameUI() == 1) {
+            removePassiveObject(scorebar);
+            scorebar = null;
+            setUIVisible(false);
+            ToastLogger.showText("ghigui " + Config.getHideInGameUI(), false);
+        }
+
+        if(Config.getHideInGameUI() == 0) {
             if (Config.isComboburst()) {
                 comboBurst = new ComboBurst(Config.getRES_WIDTH(), Config.getRES_HEIGHT());
                 comboBurst.attachAll(bgScene);
             }
-        }
-
-        if(Config.getHideInGameUI() == 1) {
-            scorebar = null;
-            setUIVisible(false);
             ToastLogger.showText("ghigui " + Config.getHideInGameUI(), false);
         }
 
@@ -1477,7 +1481,9 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                 if(GameHelper.isFlashLight()){
                     flashlightSprite.onBreak(true);
                 }
-                setUIVisible(true);
+                if(Config.getHideInGameUI() == 1) {
+                    setUIVisible(true);
+                }
                 if(scorebar != null) scorebar.setVisible(false);
                 breakPeriods.poll();
             }
@@ -1488,7 +1494,9 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
             if(GameHelper.isFlashLight()){
                 flashlightSprite.onBreak(false);
             }
-            setUIVisible(false);
+            if(Config.getHideInGameUI() == 1) {
+                setUIVisible(false);
+            }
         }
 
         if (objects.isEmpty() && activeObjects.isEmpty()) {
