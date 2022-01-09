@@ -719,7 +719,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                 }
             }
         });
-        ResourceManager.getInstance().playSound("failsound");
+        ResourceManager.getInstance().stopSound("failsound");
     }
 
     private void prepareScene() {
@@ -969,15 +969,16 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                 passiveObjects.add(scoreShadow);
             }
 
-            if(Config.getHideInGameUI() == 1) {
-                scorebar = null;
-                setUIVisible(false);
-            }
-    
             if (Config.isComboburst()) {
                 comboBurst = new ComboBurst(Config.getRES_WIDTH(), Config.getRES_HEIGHT());
                 comboBurst.attachAll(bgScene);
             }
+        }
+
+        if(Config.getHideInGameUI() == 1) {
+            scorebar = null;
+            setUIVisible(false);
+            ToastLogger.showText("ghigui " + Config.getHideInGameUI(), false);
         }
 
         if (stat.getMod().contains(GameMod.MOD_AUTO)) {
