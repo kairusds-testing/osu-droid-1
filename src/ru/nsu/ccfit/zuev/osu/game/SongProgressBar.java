@@ -37,6 +37,10 @@ public class SongProgressBar extends GameObject {
         scene.attachChild(progressRect);
     }
 
+    public void setVisible(final boolean visible) {
+        progressRect.setVisible(visible);
+        bgRect.setVisible(visible);
+    }
 
     @Override
     public void update(final float dt) {

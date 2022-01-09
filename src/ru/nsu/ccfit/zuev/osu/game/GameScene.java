@@ -887,7 +887,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
         if (objects.isEmpty() == false)
             lastObjectTme = objects.getLast().getTime();
 
-        if(!Config.isHideInGameUI()) { 
+        if(!Config.getHideInGameUI() < 2) {
             progressBar = new SongProgressBar(this, bgScene, lastObjectTme, objects
                     .getFirst().getTime(), new PointF(0, Config.getRES_HEIGHT() - 7), Config.getRES_WIDTH(), 7);
             progressBar.setProgressRectColor(new RGBAColor(153f / 255f, 204f / 255f, 51f / 255f, 0.4f));
@@ -945,7 +945,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
         float effectOffset = 155 - 25;
         breakAnimator = new BreakAnimator(this, fgScene, stat, beatmapData
                     .getData("General", "LetterboxInBreaks").equals("1"), bgSprite);
-        if(!Config.isHideInGameUI()){
+        if(Config.getHideInGameUI() < 2){
             scorebar = new ScoreBar(this, fgScene, stat);
             addPassiveObject(scorebar);
             final TextureRegion scoreDigitTex = ResourceManager.getInstance()
@@ -961,36 +961,43 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
             comboText.attachToScene(fgScene);
             accText.attachToScene(fgScene);
             scoreText.attachToScene(fgScene);
+
             if (Config.isComplexAnimations()) {
                 scoreShadow = new GameScoreTextShadow(0, Config.getRES_HEIGHT()
                         - Utils.toRes(90), "0000x", 1.5f);
                 scoreShadow.attachToScene(bgScene);
                 passiveObjects.add(scoreShadow);
             }
-            if (stat.getMod().contains(GameMod.MOD_AUTO)) {
-                final Sprite autoIcon = new Sprite(Utils.toRes(Config.getRES_WIDTH() - 140),
-                        Utils.toRes(100), ResourceManager.getInstance().getTexture(
-                        "selection-mod-autoplay"));
-                bgScene.attachChild(autoIcon);
-                effectOffset += 25;
-            } else if (stat.getMod().contains(GameMod.MOD_RELAX)) {
-                final Sprite autoIcon = new Sprite(Utils.toRes(Config.getRES_WIDTH() - 140),
-                        Utils.toRes(98), ResourceManager.getInstance().getTexture(
-                        "selection-mod-relax"));
-                bgScene.attachChild(autoIcon);
-                effectOffset += 25;
-            } else if (stat.getMod().contains(GameMod.MOD_AUTOPILOT)) {
-                final Sprite autoIcon = new Sprite(Utils.toRes(Config.getRES_WIDTH() - 140),
-                        Utils.toRes(98), ResourceManager.getInstance().getTexture(
-                        "selection-mod-relax2"));
-                bgScene.attachChild(autoIcon);
-                effectOffset += 25;
+
+            if(Config.getHideInGameUI() == 1) {
+                scorebar = null;
+                setUIVisible(false);
             }
     
             if (Config.isComboburst()) {
                 comboBurst = new ComboBurst(Config.getRES_WIDTH(), Config.getRES_HEIGHT());
                 comboBurst.attachAll(bgScene);
             }
+        }
+
+        if (stat.getMod().contains(GameMod.MOD_AUTO)) {
+            final Sprite autoIcon = new Sprite(Utils.toRes(Config.getRES_WIDTH() - 140),
+                    Utils.toRes(100), ResourceManager.getInstance().getTexture(
+                    "selection-mod-autoplay"));
+            bgScene.attachChild(autoIcon);
+            effectOffset += 25;
+        } else if (stat.getMod().contains(GameMod.MOD_RELAX)) {
+            final Sprite autoIcon = new Sprite(Utils.toRes(Config.getRES_WIDTH() - 140),
+                    Utils.toRes(98), ResourceManager.getInstance().getTexture(
+                    "selection-mod-relax"));
+            bgScene.attachChild(autoIcon);
+            effectOffset += 25;
+        } else if (stat.getMod().contains(GameMod.MOD_AUTOPILOT)) {
+            final Sprite autoIcon = new Sprite(Utils.toRes(Config.getRES_WIDTH() - 140),
+                    Utils.toRes(98), ResourceManager.getInstance().getTexture(
+                    "selection-mod-relax2"));
+            bgScene.attachChild(autoIcon);
+            effectOffset += 25;
         }
 
         float timeOffset = 0;
@@ -1469,6 +1476,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                 if(GameHelper.isFlashLight()){
                     flashlightSprite.onBreak(true);
                 }
+                setUIVisible(true);
                 if(scorebar != null) scorebar.setVisible(false);
                 breakPeriods.poll();
             }
@@ -1479,6 +1487,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
             if(GameHelper.isFlashLight()){
                 flashlightSprite.onBreak(false);
             }
+            setUIVisible(false);
         }
 
         if (objects.isEmpty() && activeObjects.isEmpty()) {
@@ -1513,7 +1522,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
             hitErrorMeter.update(dt);
         }
 
-        if(!Config.isHideInGameUI()) {
+        if(Config.getHideInGameUI() < 2) {
             //连击数////////////////////////
             final StringBuilder comboBuilder = new StringBuilder();
             comboBuilder.setLength(0);
@@ -2515,9 +2524,20 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
         passiveObjects.add(object);
     }
 
-
     public void removePassiveObject(final GameObject object) {
         passiveObjects.remove(object);
+    }
+
+    public void setUIVisible(final boolean visible) {
+        if(progressBar != null && scoreBar != null && accText != null
+                && comboText != null && scoreText != null && scoreShadow != null) {
+            progressBar.setVisible(visible);
+            // scoreBar.setVisible(visible);
+            accText.setVisible(visible);
+            comboText.setVisible(visible);
+            scoreText.setVisible(visible);
+            scoreShadow.setVisible(visible);
+        }
     }
 
     private void createHitEffect(final PointF pos, final String name, RGBColor color) {

@@ -74,6 +74,15 @@ public class GameScoreTextShadow extends GameObject {
         letters[0].setAlpha(0.6f);
     }
 
+    public void setVisible(final boolean visible) {
+        for(AnimSprite digit : digits) {
+            digit.setVisible(visible);
+        }
+        for(AnimSprite letter : letters) {
+            letter.setVisible(visible);
+        }
+    }
+
     public void attachToScene(final Scene scene) {
         scene.attachChild(letters[0], 0);
     }

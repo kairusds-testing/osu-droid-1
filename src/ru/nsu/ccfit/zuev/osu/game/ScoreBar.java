@@ -62,7 +62,6 @@ public class ScoreBar extends GameObject {
         ki.setVisible(visible);
     }
 
-
     @Override
     public void update(final float dt) {
         float hp = stat.getHp();

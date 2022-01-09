@@ -12,6 +12,7 @@
         <item>4</item>
         <item>0</item>
     </string-array>
+
     <!-- <string-array name="bg_brightness_names">
         <item>100%</item>
         <item>75%</item>
@@ -26,6 +27,7 @@
         <item>25</item>
         <item>0</item>
     </string-array> -->
+
     <string-array name="error_meter_display_names">
         <item>Always</item>
         <item>Replay Only</item>
@@ -36,6 +38,18 @@
         <item>2</item>
         <item>0</item>
     </string-array>
+
+    <string-array name="opt_hide_ingame_ui_names">
+        <item>Enabled</item>
+        <item>Disable on Break Sections</item>
+        <item>Disabled</item>
+    </string-array>
+    <string-array name="opt_hide_ingame_ui_values">
+        <item>2</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+
     <string-array name="spinner_style_names">
         <item>Modern</item>
         <item>Classical</item>
@@ -44,6 +58,7 @@
         <item>1</item>
         <item>0</item>
     </string-array>
+
     <string-array name="metronome_switch_names">
         <item>Off</item>
         <item>NightCore Mode Only</item>
@@ -54,9 +69,7 @@
         <item>1</item>
         <item>2</item>
     </string-array>
-    <string-array name="placeholder_array">
-        <item>placeholder</item>
-    </string-array>
+
     <string-array name="set_playfield_names">
         <item>100%</item>
         <item>95%</item>
@@ -71,6 +84,7 @@
         <item>85</item>
         <item>80</item>
     </string-array>
+
     <string name="opt_main">Settings</string>
 
     <string name="opt_onlineOpt">Account Option</string>

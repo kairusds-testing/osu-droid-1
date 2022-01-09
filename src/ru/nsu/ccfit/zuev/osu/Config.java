@@ -70,7 +70,6 @@ public class Config {
         calculateSliderPathInGameStart,
         displayScoreStatistics,
         hideReplayMarquee,
-        hideInGameUI,
         receiveAnnouncements,
         useSuperSlider,
         enableStoryboard,
@@ -80,6 +79,7 @@ public class Config {
     private static int RES_WIDTH,
         RES_HEIGHT,
         errorMeter,
+        hideInGameUI,
         spinnerStyle,
         backgroundQuality,
         textureQuality,
@@ -102,15 +102,14 @@ public class Config {
         Config.context = context;
         final SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
-        String s;
         // graphics
-        s = prefs.getString("background", "2");
-        backgroundQuality = Integer.parseInt(s);
+        backgroundQuality = Integer.parseInt(prefs.getString("background", "2"));
         useCustomSkins = prefs.getBoolean("skin", false);
         useCustomSounds = prefs.getBoolean("beatmapSounds", true);
         comboburst = prefs.getBoolean("comboburst", false);
         corovans = prefs.getBoolean("images", false);
         showFPS = prefs.getBoolean("fps", false);
+        hideInGameUI = Integer.parseInt(prefs.getString("hideGameplayUI", "0"));
         textureQuality = prefs.getBoolean("lowtextures", false) ? 2 : 1;
         errorMeter = Integer.parseInt(prefs.getString("errormeter", "0"));
         spinnerStyle = Integer.parseInt(prefs.getString("spinnerstyle", "0"));
@@ -219,7 +218,6 @@ public class Config {
         calculateSliderPathInGameStart = prefs.getBoolean("calculateSliderPathInGameStart", false);
         displayScoreStatistics = prefs.getBoolean("displayScoreStatistics", false);
         hideReplayMarquee = prefs.getBoolean("hideReplayMarquee", false);
-        hideInGameUI = prefs.getBoolean("hideInGameUI", false);
         receiveAnnouncements = prefs.getBoolean("receiveAnnouncements", true);
         safeBeatmapBg = prefs.getBoolean("safebeatmapbg", false);
 
@@ -723,11 +721,11 @@ public class Config {
         Config.hideReplayMarquee = hideReplayMarquee;
     }
 
-    public static boolean isHideInGameUI() {
+    public static int getHideInGameUI() {
         return hideInGameUI;
     }
 
-    public static void setHideInGameUI(boolean hideInGameUI) {
+    public static void setHideInGameUI(int hideInGameUI) {
         Config.hideInGameUI = hideInGameUI;
     }
 

@@ -83,6 +83,12 @@ public class GameScoreText {
         }
     }
 
+    public void setVisible(final boolean visible) {
+        for(AnimSprite digit : digits) {
+            digit.setVisible(visible);
+        }
+    }
+
     public void attachToScene(final Scene scene) {
         for (final Sprite sp : letters) {
             scene.attachChild(sp, 0);
