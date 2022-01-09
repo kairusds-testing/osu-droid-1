@@ -524,7 +524,6 @@ public class MainActivity extends BaseGameActivity implements
                     ToastLogger.showText(
                             StringTable.format(R.string.message_lib_imported, folderName),
                             true);
-                    Config.addSkin(folderName.substring(folderName.lastIndexOf("/") + 1), skin);
                 }
             }
         }
