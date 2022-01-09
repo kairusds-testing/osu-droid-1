@@ -178,7 +178,6 @@ public class FileUtils {
     }
 
     public static File[] listFiles(File directory, FileFilter filter) {
-        File[] filelist = null;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             LinkedList<File> cachedFiles = new LinkedList<File>();
             DirectoryStream.Filter<Path> directoryFilter = new DirectoryStream.Filter<Path>() {
@@ -194,11 +193,11 @@ public class FileUtils {
             }catch(Exception err) {
                 Debug.e("FileUtils.listFiles: " + err.getMessage(), err);
             }
-            filelist = cachedFiles.toArray(new File[cachedFiles.size()]);
+            return cachedFiles.toArray(new File[cachedFiles.size()]);
         }else {
-            filelist = directory.listFiles(filter);
+            return directory.listFiles(filter);
         }
-        return filelist;
+        return null;
     }
 
 }
