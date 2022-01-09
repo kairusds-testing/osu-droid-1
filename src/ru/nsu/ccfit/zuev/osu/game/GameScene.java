@@ -887,7 +887,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
         if (objects.isEmpty() == false)
             lastObjectTme = objects.getLast().getTime();
 
-        if(!Config.getHideInGameUI() < 2) {
+        if(Config.getHideInGameUI() < 2) {
             progressBar = new SongProgressBar(this, bgScene, lastObjectTme, objects
                     .getFirst().getTime(), new PointF(0, Config.getRES_HEIGHT() - 7), Config.getRES_WIDTH(), 7);
             progressBar.setProgressRectColor(new RGBAColor(153f / 255f, 204f / 255f, 51f / 255f, 0.4f));
@@ -2529,10 +2529,9 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
     }
 
     public void setUIVisible(final boolean visible) {
-        if(progressBar != null && scoreBar != null && accText != null
+        if(progressBar != null && accText != null
                 && comboText != null && scoreText != null && scoreShadow != null) {
             progressBar.setVisible(visible);
-            // scoreBar.setVisible(visible);
             accText.setVisible(visible);
             comboText.setVisible(visible);
             scoreText.setVisible(visible);
