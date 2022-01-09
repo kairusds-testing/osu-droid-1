@@ -59,9 +59,10 @@
         <item>0</item>
     </string-array>
 
+
     <string-array name="metronome_switch_names">
         <item>Off</item>
-        <item>NightCore Mode Only</item>
+        <item>Nightcore Mode Only</item>
         <item>Always</item>
     </string-array>
     <string-array name="metronome_switch_values">
@@ -69,6 +70,10 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+
+    <string-array name="placeholder_array">
+        <item>placeholder</item>
+    </string>
 
     <string-array name="set_playfield_names">
         <item>100%</item>
