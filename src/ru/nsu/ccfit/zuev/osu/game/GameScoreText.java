@@ -77,6 +77,7 @@ public class GameScoreText {
                 char character = text.charAt(i);
                 if (characters.containsKey(character)) {
                     AnimSprite sprite = characters.get(character);
+                    sprite.setVisible(visible);
                     sprite.setPosition(digits.get(0).getX() + digitsWidth, sprite.getY());
                     digitsWidth += sprite.getWidth();
                 }
@@ -92,6 +93,9 @@ public class GameScoreText {
         this.visible = visible;
         for(AnimSprite digit : digits) {
             digit.setVisible(visible);
+        }
+        for(AnimSprite character : characters) {
+            character.setVisible(visible);
         }
     }
 
