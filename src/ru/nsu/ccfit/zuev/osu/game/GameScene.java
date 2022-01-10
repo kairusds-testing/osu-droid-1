@@ -2535,7 +2535,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
         passiveObjects.remove(object);
     }
 
-    public void setUIVisible(final boolean visible, float animDuration) {
+    public void setUIVisible(final boolean visible) {
         if(progressBar != null && accText != null && comboText != null && scoreText != null) {
             progressBar.setVisible(visible);
             for(GameScoreText element : new GameScoreText[]{accText, comboText, scoreText}) {
