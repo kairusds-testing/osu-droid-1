@@ -94,8 +94,10 @@ public class GameScoreText {
         for(AnimSprite digit : digits) {
             digit.setVisible(visible);
         }
-        for(AnimSprite character : characters.values()) {
-            character.setVisible(visible);
+        if(characters != null){
+            for(AnimSprite character : characters.values()) {
+                character.setVisible(visible);
+            }
         }
     }
 
