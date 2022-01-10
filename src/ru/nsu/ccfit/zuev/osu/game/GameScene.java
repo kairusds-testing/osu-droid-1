@@ -20,6 +20,7 @@ import org.anddev.andengine.engine.camera.SmoothCamera;
 import org.anddev.andengine.entity.modifier.DelayModifier;
 import org.anddev.andengine.entity.modifier.FadeOutModifier;
 import org.anddev.andengine.entity.modifier.IEntityModifier;
+import org.anddev.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.anddev.andengine.entity.modifier.LoopEntityModifier;
 import org.anddev.andengine.entity.modifier.MoveXModifier;
 import org.anddev.andengine.entity.modifier.ParallelEntityModifier;
@@ -43,6 +44,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -179,6 +181,8 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
     private float lastObjectHitTime = 0;
     private SliderPath[] sliderPaths = null;
     private int sliderIndex = 0;
+    private HashMap<GameScoreText, Float> defaultElementsAlpha;
+    private float defaultProgressBarAlpha;
 
     private StoryboardSprite storyboardSprite;
     private ProxySprite storyboardOverlayProxy;
@@ -741,13 +745,9 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                     Utils.toRes(520), font, "00.00 FPS");
             final ChangeableText urText = new ChangeableText(Utils.toRes(720),
                     Utils.toRes(480), font, "00.00 UR    ");
-            /* final ChangeableText accText = new ChangeableText(Utils.toRes(720),
-                    Utils.toRes(440), font, "Avg offset: 0ms     ");  */
             fpsText.setPosition(Config.getRES_WIDTH() - fpsText.getWidth() - 5, Config.getRES_HEIGHT() - fpsText.getHeight() - 10);
-            // accText.setPosition(Config.getRES_WIDTH() - accText.getWidth() - 5, fpsText.getY() - accText.getHeight());
             urText.setPosition(Config.getRES_WIDTH() - urText.getWidth() - 5, fpsText.getY() - urText.getHeight());
             fgScene.attachChild(fpsText);
-            // fgScene.attachChild(accText);
             fgScene.attachChild(urText);
 
             ChangeableText memText = null;
@@ -961,24 +961,29 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
             comboText.attachToScene(fgScene);
             accText.attachToScene(fgScene);
             scoreText.attachToScene(fgScene);
-
-            if (Config.isComplexAnimations()) {
-                scoreShadow = new GameScoreTextShadow(0, Config.getRES_HEIGHT()
-                        - Utils.toRes(90), "0000x", 1.5f);
-                scoreShadow.attachToScene(bgScene);
-                passiveObjects.add(scoreShadow);
-            }
         }
 
         if(Config.getHideInGameUI() == 1) {
             removePassiveObject(scorebar);
             scorebar.setVisible(false);
             scorebar = null;
-            setUIVisible(false);
+            defaultElementsAlpha = new HashMap<GameScoreText, Float>();
+            defaultElementsAlpha.put(accText, accText.getAlpha());
+            defaultElementsAlpha.put(comboText, comboText.getAlpha());
+            defaultElementsAlpha.put(scoreText, scoreText.getAlpha());
+            defaultProgressBarAlpha = progressBar.getAlpha();
+            setUIVisible(false, 0);
             ToastLogger.showText("ghigui " + Config.getHideInGameUI(), false);
         }
 
         if(Config.getHideInGameUI() == 0) {
+            if (Config.isComplexAnimations()) {
+                scoreShadow = new GameScoreTextShadow(0, Config.getRES_HEIGHT()
+                        - Utils.toRes(90), "0000x", 1.5f);
+                scoreShadow.attachToScene(bgScene);
+                passiveObjects.add(scoreShadow);
+            }
+
             if (Config.isComboburst()) {
                 comboBurst = new ComboBurst(Config.getRES_WIDTH(), Config.getRES_HEIGHT());
                 comboBurst.attachAll(bgScene);
@@ -1542,7 +1547,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
             }
             if (Config.isComplexAnimations()) {
                 scoreShadow.changeText(comboBuilder);
-                scoreShadow.registerEntityModifier(new DelayModifier(0.2f, new IEntityModifier.IEntityModifierListener() {
+                scoreShadow.registerEntityModifier(new DelayModifier(0.2f, new IEntityModifierListener() {
                     @Override
                     public void onModifierStarted(IModifier<IEntity> iModifier, IEntity iEntity) { 
                     }
@@ -2538,14 +2543,64 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
         passiveObjects.remove(object);
     }
 
-    public void setUIVisible(final boolean visible) {
-        if(progressBar != null && accText != null
-                && comboText != null && scoreText != null && scoreShadow != null) {
-            progressBar.setVisible(visible);
-            accText.setVisible(visible);
-            comboText.setVisible(visible);
-            scoreText.setVisible(visible);
-            scoreShadow.setVisible(visible);
+    public void setUIVisible(final boolean visible, float animDuration) {
+        if(progressBar != null && accText != null && comboText != null && scoreText != null) {
+            GameScoreText[] elements = new GameScoreText[]{accText, comboText, scoreText};
+
+            if(Config.getHideInGameUI() == 1) {
+                if(visible) {
+                    progressBar.setVisible(true);
+                    progressBar.registerEntityModifier(new AlphaModifier(animDuration, 0, defaultProgressBarAlpha, new IEntityModifierListener() {
+                        @Override
+                        public void onModifierStarted(IModifier<IEntity> iModifier, IEntity iEntity) {
+                        }
+                        @Override
+                        public void onModifierFinished(IModifier<IEntity> iModifier, IEntity iEntity) {
+                            progressBar.unregisterEntityModifier(iModifier);
+                        }
+                    }));
+
+                    for(GameScoreText element : elements) {
+                        element.setVisible(true);
+                        element.registerEntityModifier(new AlphaModifier(animDuration, 0, defaultElementsAlpha.get(element), new IEntityModifierListener() {
+                            @Override
+                            public void onModifierStarted(IModifier<IEntity> iModifier, IEntity iEntity) {
+                            }
+                            @Override
+                            public void onModifierFinished(IModifier<IEntity> iModifier, IEntity iEntity) {
+                                element.unregisterEntityModifier(iModifier);
+                            }
+                        }));
+                    }
+                }else {
+                    progressBar.registerEntityModifier(new AlphaModifier(animDuration, defaultProgressBarAlpha, 0, new IEntityModifierListener() {
+                        @Override
+                        public void onModifierStarted(IModifier<IEntity> iModifier, IEntity iEntity) {
+                        }
+                        @Override
+                        public void onModifierFinished(IModifier<IEntity> iModifier, IEntity iEntity) {
+                            progressBar.setVisible(false);
+                            progressBar.unregisterEntityModifier(iModifier);
+                        }
+                    }));
+                    for(GameScoreText element : elements) {
+                        element.registerEntityModifier(new AlphaModifier(animDuration, defaultElementsAlpha.get(element), 0, new IEntityModifierListener() {
+                            @Override
+                            public void onModifierStarted(IModifier<IEntity> iModifier, IEntity iEntity) {}
+                            @Override
+                            public void onModifierFinished(IModifier<IEntity> iModifier, IEntity iEntity) {
+                                element.setVisible(false);
+                                element.unregisterEntityModifier(iModifier);
+                            }
+                        }));
+                    }
+                }
+            }else if(Config.getHideInGameUI() != 1 || duration < 1f) {
+                progressBar.setVisible(visible);
+                for(GameScoreText element : elements) {
+                    element.setVisible(visible);
+                }
+            }
         }
     }
 

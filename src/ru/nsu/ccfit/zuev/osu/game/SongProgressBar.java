@@ -2,6 +2,7 @@ package ru.nsu.ccfit.zuev.osu.game;
 
 import android.graphics.PointF;
 
+import org.anddev.andengine.entity.modifier.IEntityModifier;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 
@@ -37,9 +38,23 @@ public class SongProgressBar extends GameObject {
         scene.attachChild(progressRect);
     }
 
+    public float getAlpha() {
+        return progressRect.getAlpha();
+    }
+
     public void setVisible(final boolean visible) {
         progressRect.setVisible(visible);
         bgRect.setVisible(visible);
+    }
+
+    public void registerEntityModifier(IEntityModifier modifier) {
+        progressRect.registerEntityModifier(modifier);
+        bgRect.registerEntityModifier(modifier);
+    }
+
+    public void unregisterEntityModifier(IEntityModifier modifier) {
+        progressRect.unregisterEntityModifier(modifier);
+        bgRect.unregisterEntityModifier(modifier);
     }
 
     @Override

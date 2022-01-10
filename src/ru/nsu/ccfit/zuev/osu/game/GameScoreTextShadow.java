@@ -14,7 +14,6 @@ public class GameScoreTextShadow extends GameObject {
     private final ArrayList<AnimSprite> digits = new ArrayList<AnimSprite>();
     private boolean hasX = false;
     private String text = "";
-    private boolean visible = false;
 
     public GameScoreTextShadow(float x, float y, final String mask,
                                final float scale) {
@@ -57,17 +56,12 @@ public class GameScoreTextShadow extends GameObject {
                 break;
             }
             if (text.charAt(i) >= '0' && text.charAt(i) <= '9') {
-                if(visible) {
-                    digits.get(j).setVisible(true);
-                }
-
+                digits.get(j).setVisible(true);
                 digits.get(j).setFrame(text.charAt(i) - '0');
                 digitsWidth += digits.get(j).getWidth();
                 j++;
             } else if (text.charAt(i) == '*') {
-                if(visible) {
-                    digits.get(j).setVisible(false);
-                }
+                digits.get(j).setVisible(false);
                 j++;
             }
         }
@@ -78,16 +72,6 @@ public class GameScoreTextShadow extends GameObject {
         this.text = text.toString();
 
         letters[0].setAlpha(0.6f);
-    }
-
-    public void setVisible(final boolean visible) {
-        this.visible = visible;
-        /* for(AnimSprite digit : digits) {
-            digit.setVisible(visible);
-        }
-        for(AnimSprite letter : letters) {
-            letter.setVisible(visible);
-        } */
     }
 
     public void attachToScene(final Scene scene) {

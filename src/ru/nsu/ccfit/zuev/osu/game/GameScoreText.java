@@ -70,9 +70,7 @@ public class GameScoreText {
                 digitsWidth += digits.get(j).getWidth();
                 j++;
             } else if (text.charAt(i) == '*') {
-                if(visible) {
-                    digits.get(j).setVisible(false);
-                }
+                digits.get(j).setVisible(false);
                 j++;
                 // TODO
             } else {
