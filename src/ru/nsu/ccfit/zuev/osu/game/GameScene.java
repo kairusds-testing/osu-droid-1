@@ -44,7 +44,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -181,8 +180,6 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
     private float lastObjectHitTime = 0;
     private SliderPath[] sliderPaths = null;
     private int sliderIndex = 0;
-    private HashMap<GameScoreText, Float> defaultElementsAlpha;
-    private float defaultProgressBarAlpha;
 
     private StoryboardSprite storyboardSprite;
     private ProxySprite storyboardOverlayProxy;
@@ -967,11 +964,6 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
             removePassiveObject(scorebar);
             scorebar.setVisible(false);
             scorebar = null;
-            defaultElementsAlpha = new HashMap<GameScoreText, Float>();
-            defaultElementsAlpha.put(accText, accText.getAlpha());
-            defaultElementsAlpha.put(comboText, comboText.getAlpha());
-            defaultElementsAlpha.put(scoreText, scoreText.getAlpha());
-            defaultProgressBarAlpha = progressBar.getAlpha();
             setUIVisible(false, 0);
             ToastLogger.showText("ghigui " + Config.getHideInGameUI(), false);
         }
@@ -1488,7 +1480,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                     flashlightSprite.onBreak(true);
                 }
                 if(Config.getHideInGameUI() == 1) {
-                    setUIVisible(true);
+                    setUIVisible(true, secPassed - breakPeriods.peek().getStart());
                 }
                 if(scorebar != null) scorebar.setVisible(false);
                 breakPeriods.poll();
@@ -1501,7 +1493,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                 flashlightSprite.onBreak(false);
             }
             if(Config.getHideInGameUI() == 1) {
-                setUIVisible(false);
+                setUIVisible(false, secPassed - breakPeriods.peek().getLength());
             }
         }
 
@@ -2556,7 +2548,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                         }
                         @Override
                         public void onModifierFinished(IModifier<IEntity> iModifier, IEntity iEntity) {
-                            progressBar.unregisterEntityModifier(iModifier);
+                            progressBar.unregisterEntityModifier(this);
                         }
                     }));
 
@@ -2568,7 +2560,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                             }
                             @Override
                             public void onModifierFinished(IModifier<IEntity> iModifier, IEntity iEntity) {
-                                element.unregisterEntityModifier(iModifier);
+                                element.unregisterEntityModifier(this);
                             }
                         }));
                     }
@@ -2580,7 +2572,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                         @Override
                         public void onModifierFinished(IModifier<IEntity> iModifier, IEntity iEntity) {
                             progressBar.setVisible(false);
-                            progressBar.unregisterEntityModifier(iModifier);
+                            progressBar.unregisterEntityModifier(this);
                         }
                     }));
                     for(GameScoreText element : elements) {
@@ -2590,7 +2582,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                             @Override
                             public void onModifierFinished(IModifier<IEntity> iModifier, IEntity iEntity) {
                                 element.setVisible(false);
-                                element.unregisterEntityModifier(iModifier);
+                                element.unregisterEntityModifier(this);
                             }
                         }));
                     }
