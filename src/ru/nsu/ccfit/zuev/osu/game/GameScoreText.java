@@ -91,8 +91,11 @@ public class GameScoreText {
 
     public void setVisible(final boolean visible) {
         this.visible = visible;
-        for(AnimSprite digit : digits) {
+        for(Sprite digit : digits) {
             digit.setVisible(visible);
+        }
+        for(Sprite sp : letters) {
+            sp.setVisible(visible);
         }
     }
 
