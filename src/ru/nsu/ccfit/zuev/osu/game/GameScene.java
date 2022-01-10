@@ -1537,7 +1537,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
             while (comboBuilder.length() < 5) {
                 comboBuilder.append('*');
             }
-            if (Config.isComplexAnimations()) {
+            if (Config.isComplexAnimations() && scoreShadow != null) {
                 scoreShadow.changeText(comboBuilder);
                 scoreShadow.registerEntityModifier(new DelayModifier(0.2f, new IEntityModifierListener() {
                     @Override
