@@ -964,7 +964,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
             removePassiveObject(scorebar);
             scorebar.setVisible(false);
             scorebar = null;
-            setUIVisible(false, 0);
+            setUIVisible(false);
             ToastLogger.showText("ghigui " + Config.getHideInGameUI(), false);
         }
 
@@ -1480,7 +1480,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                     flashlightSprite.onBreak(true);
                 }
                 if(Config.getHideInGameUI() == 1) {
-                    setUIVisible(true, secPassed - breakPeriods.peek().getStart());
+                    setUIVisible(true);
                 }
                 if(scorebar != null) scorebar.setVisible(false);
                 breakPeriods.poll();
@@ -1493,7 +1493,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                 flashlightSprite.onBreak(false);
             }
             if(Config.getHideInGameUI() == 1) {
-                setUIVisible(false, secPassed - breakPeriods.peek().getLength());
+                setUIVisible(false);
             }
         }
 
@@ -2537,61 +2537,9 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
 
     public void setUIVisible(final boolean visible, float animDuration) {
         if(progressBar != null && accText != null && comboText != null && scoreText != null) {
-            GameScoreText[] elements = new GameScoreText[]{accText, comboText, scoreText};
-
-            if(Config.getHideInGameUI() == 1) {
-                if(visible) {
-                    progressBar.setVisible(true);
-                    progressBar.registerEntityModifier(new AlphaModifier(animDuration, 0, defaultProgressBarAlpha, new IEntityModifierListener() {
-                        @Override
-                        public void onModifierStarted(IModifier<IEntity> iModifier, IEntity iEntity) {
-                        }
-                        @Override
-                        public void onModifierFinished(IModifier<IEntity> iModifier, IEntity iEntity) {
-                            progressBar.unregisterEntityModifier(this);
-                        }
-                    }));
-
-                    for(GameScoreText element : elements) {
-                        element.setVisible(true);
-                        element.registerEntityModifier(new AlphaModifier(animDuration, 0, defaultElementsAlpha.get(element), new IEntityModifierListener() {
-                            @Override
-                            public void onModifierStarted(IModifier<IEntity> iModifier, IEntity iEntity) {
-                            }
-                            @Override
-                            public void onModifierFinished(IModifier<IEntity> iModifier, IEntity iEntity) {
-                                element.unregisterEntityModifier(this);
-                            }
-                        }));
-                    }
-                }else {
-                    progressBar.registerEntityModifier(new AlphaModifier(animDuration, defaultProgressBarAlpha, 0, new IEntityModifierListener() {
-                        @Override
-                        public void onModifierStarted(IModifier<IEntity> iModifier, IEntity iEntity) {
-                        }
-                        @Override
-                        public void onModifierFinished(IModifier<IEntity> iModifier, IEntity iEntity) {
-                            progressBar.setVisible(false);
-                            progressBar.unregisterEntityModifier(this);
-                        }
-                    }));
-                    for(GameScoreText element : elements) {
-                        element.registerEntityModifier(new AlphaModifier(animDuration, defaultElementsAlpha.get(element), 0, new IEntityModifierListener() {
-                            @Override
-                            public void onModifierStarted(IModifier<IEntity> iModifier, IEntity iEntity) {}
-                            @Override
-                            public void onModifierFinished(IModifier<IEntity> iModifier, IEntity iEntity) {
-                                element.setVisible(false);
-                                element.unregisterEntityModifier(this);
-                            }
-                        }));
-                    }
-                }
-            }else if(Config.getHideInGameUI() != 1 || duration < 1f) {
-                progressBar.setVisible(visible);
-                for(GameScoreText element : elements) {
-                    element.setVisible(visible);
-                }
+            progressBar.setVisible(visible);
+            for(GameScoreText element : new GameScoreText[]{accText, comboText, scoreText}) {
+                element.setVisible(visible);
             }
         }
     }
