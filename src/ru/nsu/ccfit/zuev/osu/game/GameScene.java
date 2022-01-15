@@ -965,7 +965,6 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
             scorebar.setVisible(false);
             scorebar = null;
             setUIVisible(false);
-            ToastLogger.showText("ghigui " + Config.getHideInGameUI(), false);
         }
 
         if(Config.getHideInGameUI() == 0) {
@@ -980,7 +979,6 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
                 comboBurst = new ComboBurst(Config.getRES_WIDTH(), Config.getRES_HEIGHT());
                 comboBurst.attachAll(bgScene);
             }
-            ToastLogger.showText("ghigui " + Config.getHideInGameUI(), false);
         }
 
         if (stat.getMod().contains(GameMod.MOD_AUTO)) {

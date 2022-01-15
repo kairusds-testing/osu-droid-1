@@ -41,7 +41,7 @@
 
     <string-array name="opt_hide_ingame_ui_names">
         <item>Enabled</item>
-        <item>Disable on Break Sections</item>
+        <item>Disable on Break Periods</item>
         <item>Disabled</item>
     </string-array>
     <string-array name="opt_hide_ingame_ui_values">
