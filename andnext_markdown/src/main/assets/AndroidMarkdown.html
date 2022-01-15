@@ -56,16 +56,9 @@
               }
         });
 
-
-    </script>
-
-    <script type="text/javascript">
-    function setText(text) {
-        var result = marked(text);
-
-		var element = document.getElementById('marked');
-		element.innerHTML = result;
-    }
+        function setText(text) {
+            document.getElementById('marked').innerHTML = marked.parse(text);
+        }
     </script>
 
 </head>
